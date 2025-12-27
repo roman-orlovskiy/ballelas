@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/svg+xml" href="img_opt/fav.svg">
+  <link rel="preload" href="img/ballelas.svg" as="image">
+  <link rel="preload" href="img_opt/1.webp" as="image">
+  <link rel="preload" href="img_opt/2.webp" as="image">
+  <link rel="preload" href="img_opt/card_opt/hack_front.webp" as="image">
+  <link rel="preload" href="img_opt/card_opt/hak_back.webp" as="image">
+  <link rel="preload" href="img/l.svg" as="image">
+  <link rel="preload" href="fonts/TT Travels Next Bold.ttf" as="font" type="font/ttf" crossorigin>
+  <title>BALLELAS</title>
+  <style>
+    @font-face {
+      font-family: 'TTTravels';
+      src: url('fonts/TT Travels Next Bold.ttf') format('truetype');
+      font-weight: bold;
+      font-display: swap;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    :root {
+      --ui-color: #f5f0d0;
+      --end-color: #212020;
+      --progress-color: #E6DBB7;
+      --bg-color: #F3F4E4;
+      --text-color: #212020;
+      --button-bg: #462C24;
+      --button-text: #E6DBB7;
+    }
+
+    html{overflow:hidden;height:100%}
+
+    body {
+      margin: 0;
+      background-color: #212020;
+      overflow: hidden;
+      font-family: 'TTTravels', sans-serif;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Preloader Styles */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    }
+
+    .preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .preloader-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .preloader-logo {
+      width: 240px;
+      height: auto;
+      max-width: 400px;
+      max-height: 240px;
+    }
+
+    .preloader-progress {
+      width: 200px;
+      height: 2px;
+      background: rgba(245, 240, 208, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preloader-progress-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--ui-color);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    /* Page States */
+    .page-index {
+      display: block;
+    }
+
+    .page-items {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    body.items-mode .page-index {
+      display: none;
+    }
+
+    body.items-mode .page-items {
+      display: flex;
+      height: 100vh;
+      min-height: 100vh;
+    }
+
+    body.items-mode {
+      background-color: var(--bg-color);
+      background-image: url('card/bbb.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    /* Top Logo Styles */
+    .top-logo {
+      position: fixed;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    body.items-mode .top-logo {
+      position: static;
+      transform: none;
+      flex-shrink: 0;
+    }
+
+    .top-logo a {
+      display: inline-block;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo-svg {
+      width: 96px;
+      height: auto;
+      max-width: 144px;
+      max-height: 60px;
+      filter: brightness(0) saturate(100%) invert(90%) sepia(10%) saturate(500%) hue-rotate(5deg) brightness(102%) contrast(92%);
+    }
+
+    body.items-mode .logo-svg {
+      filter: brightness(0) saturate(100%) invert(18%) sepia(30%) saturate(1500%) hue-rotate(345deg) brightness(0.6) contrast(1.1);
+    }
+
+    /* Index Page Styles */
+    .logo-center{
+      position: fixed;
+      top: 50%;
+      left: 50% !important;
+      right: auto !important;
+      transform: translate(-50%, -50%) scale(1);
+      max-width: 1104px;
+      max-height: 622px;
+      width: auto;
+      height: auto;
+      z-index: 1;
+      pointer-events: none;
+      margin: 0 !important;
+      transform-origin: center center;
+      opacity: 1;
+      will-change: transform, opacity;
+    }
+    .bg-bottom{
+      position: fixed; left:50%; bottom:0; transform:translateX(-50%);
+      width:auto; height:auto; max-width:1500px; max-height:1125px; z-index:2; pointer-events:none;
+    }
+
+    .glass-btn{
+      position: fixed; left:50%; bottom:24px; transform:translateX(-50%);
+      width:418px; height:84px; display:flex; align-items:center; justify-content:center;
+      color: var(--ui-color); font-size:20px; font-family:'TTTravels', sans-serif; letter-spacing:.5px; text-transform:uppercase;
+      background: rgba(33,32,32,.55);
+      backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
+      border: 1px solid rgba(255,255,255,.18); border-radius:200px; z-index:3; user-select:none;
+      overflow: hidden;
+      pointer-events: none;
+      cursor: default;
+      transition: transform 0.1s ease;
+    }
+    .glass-btn:active{
+      transform: translateX(-50%) scale(0.95);
+    }
+    .glass-btn .progress{
+      position:absolute; left:0; top:0; height:100%; width:0%;
+      background: var(--progress-color);
+      opacity: .95;
+      transition: width .2s ease;
+      z-index: -1;
+    }
+    .glass-btn .label{ position:relative; z-index:1; transition: color .2s linear; }
+
+    @keyframes glowPulse {
+      0%{ box-shadow: 0 0 0px 0 rgba(230,219,183,.0); }
+      50%{ box-shadow: 0 0 32px 6px rgba(230,219,183,.45); }
+      100%{ box-shadow: 0 0 0px 0 rgba(230,219,183,.0); }
+    }
+
+    .logo-center.exploding {
+      opacity: 0;
+    }
+
+    /* Эффект раскола - части создаются динамически */
+
+    /* Увеличение размера для ballelas.svg в 1.2 раза */
+    .logo-center[src*="ballelas.svg"] {
+      transform: translate(-50%, -50%) scale(1.2);
+      left: 50%;
+      right: auto;
+      margin: 0;
+      transform-origin: center center;
+    }
+
+    /* Специальное позиционирование для we.png */
+    .logo-center[src*="we.png"] {
+      transform: translate(-50%, calc(-50% - 50px));
+      left: 50%;
+      right: auto;
+      margin: 0;
+      transform-origin: center center;
+    }
+
+    /* Увеличение размера для FAN.svg на 30% */
+    .logo-center[src*="FAN.svg"] {
+      transform: translate(-50%, -50%) scale(1.3);
+      left: 50%;
+      right: auto;
+      margin: 0;
+      transform-origin: center center;
+    }
+
+    /* Анимация вращения для всех объектов из папки objects */
+    .logo-center[src*="img_opt/objects_opt/"] {
+      animation: rotateClockwise 20s linear infinite;
+      transform-origin: center center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      margin: 0;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    @keyframes rotateClockwise {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    @keyframes rotateClockwiseMobile {
+      from {
+        transform: translate(-50%, calc(-50% - 80px)) scale(1.5) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, calc(-50% - 80px)) scale(1.5) rotate(360deg);
+      }
+    }
+
+    .camera-shake {
+      animation: cameraShake 0.3s ease-out;
+    }
+
+    /* Кнопка полностью изолирована от тряски - используем position fixed с изоляцией */
+    .glass-btn {
+      isolation: isolate;
+      contain: layout style paint;
+    }
+
+    body.camera-shake .glass-btn {
+      animation: none !important;
+      transform: translateX(-50%) !important;
+    }
+
+    .object-shake {
+      animation: objectShake 0.1s ease-out;
+    }
+
+    .object-shake-strong {
+      animation: objectShakeStrong 0.2s ease-out !important;
+    }
+
+    .damaged {
+      filter: brightness(0.8) contrast(1.1);
+      transition: filter 0.3s ease;
+    }
+
+    @keyframes cameraShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-3px, -2px) rotate(-0.5deg); }
+      20% { transform: translate(3px, 2px) rotate(0.5deg); }
+      30% { transform: translate(-2px, 3px) rotate(-0.3deg); }
+      40% { transform: translate(2px, -3px) rotate(0.3deg); }
+      50% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+      60% { transform: translate(3px, -2px) rotate(0.5deg); }
+      70% { transform: translate(-2px, -3px) rotate(-0.3deg); }
+      80% { transform: translate(2px, 3px) rotate(0.3deg); }
+      90% { transform: translate(-3px, -2px) rotate(-0.5deg); }
+    }
+
+    @keyframes objectShake {
+      0%, 100% { transform: translate(-50%, -50%); }
+      10% { transform: translate(calc(-50% - 4px), calc(-50% - 2px)); }
+      20% { transform: translate(calc(-50% + 4px), calc(-50% + 2px)); }
+      30% { transform: translate(calc(-50% - 2px), calc(-50% + 4px)); }
+      40% { transform: translate(calc(-50% + 2px), calc(-50% - 4px)); }
+      50% { transform: translate(calc(-50% - 4px), calc(-50% + 2px)); }
+      60% { transform: translate(calc(-50% + 4px), calc(-50% - 2px)); }
+      70% { transform: translate(calc(-50% - 2px), calc(-50% - 4px)); }
+      80% { transform: translate(calc(-50% + 2px), calc(-50% + 4px)); }
+      90% { transform: translate(calc(-50% - 4px), calc(-50% - 2px)); }
+    }
+
+    /* Анимация тряски для объектов с scale (например, ballelas.svg) */
+    .logo-center[src*="ballelas.svg"].object-shake {
+      animation: objectShakeWithScale 0.1s ease-out;
+    }
+
+    .logo-center[src*="ballelas.svg"].object-shake-strong {
+      animation: objectShakeWithScaleStrong 0.2s ease-out;
+    }
+
+    @keyframes objectShakeWithScale {
+      0%, 100% { transform: translate(-50%, -50%) scale(1.2); }
+      10% { transform: translate(calc(-50% - 4px), calc(-50% - 2px)) scale(1.2); }
+      20% { transform: translate(calc(-50% + 4px), calc(-50% + 2px)) scale(1.2); }
+      30% { transform: translate(calc(-50% - 2px), calc(-50% + 4px)) scale(1.2); }
+      40% { transform: translate(calc(-50% + 2px), calc(-50% - 4px)) scale(1.2); }
+      50% { transform: translate(calc(-50% - 4px), calc(-50% + 2px)) scale(1.2); }
+      60% { transform: translate(calc(-50% + 4px), calc(-50% - 2px)) scale(1.2); }
+      70% { transform: translate(calc(-50% - 2px), calc(-50% - 4px)) scale(1.2); }
+      80% { transform: translate(calc(-50% + 2px), calc(-50% + 4px)) scale(1.2); }
+      90% { transform: translate(calc(-50% - 4px), calc(-50% - 2px)) scale(1.2); }
+    }
+
+    @keyframes objectShakeStrong {
+      0%, 100% { transform: translate(-50%, -50%); }
+      10% { transform: translate(calc(-50% - 15px), calc(-50% - 8px)); }
+      20% { transform: translate(calc(-50% + 15px), calc(-50% + 8px)); }
+      30% { transform: translate(calc(-50% - 8px), calc(-50% + 15px)); }
+      40% { transform: translate(calc(-50% + 8px), calc(-50% - 15px)); }
+      50% { transform: translate(calc(-50% - 15px), calc(-50% + 8px)); }
+      60% { transform: translate(calc(-50% + 15px), calc(-50% - 8px)); }
+      70% { transform: translate(calc(-50% - 8px), calc(-50% - 15px)); }
+      80% { transform: translate(calc(-50% + 8px), calc(-50% + 15px)); }
+      90% { transform: translate(calc(-50% - 15px), calc(-50% - 8px)); }
+    }
+
+    @keyframes objectShakeWithScaleStrong {
+      0%, 100% { transform: translate(-50%, -50%) scale(1.2); }
+      10% { transform: translate(calc(-50% - 15px), calc(-50% - 8px)) scale(1.2); }
+      20% { transform: translate(calc(-50% + 15px), calc(-50% + 8px)) scale(1.2); }
+      30% { transform: translate(calc(-50% - 8px), calc(-50% + 15px)) scale(1.2); }
+      40% { transform: translate(calc(-50% + 8px), calc(-50% - 15px)) scale(1.2); }
+      50% { transform: translate(calc(-50% - 15px), calc(-50% + 8px)) scale(1.2); }
+      60% { transform: translate(calc(-50% + 15px), calc(-50% - 8px)) scale(1.2); }
+      70% { transform: translate(calc(-50% - 8px), calc(-50% - 15px)) scale(1.2); }
+      80% { transform: translate(calc(-50% + 8px), calc(-50% + 15px)) scale(1.2); }
+      90% { transform: translate(calc(-50% - 15px), calc(-50% - 8px)) scale(1.2); }
+    }
+
+    .glass-btn.completed{
+      animation: glowPulse 1.5s ease-in-out infinite;
+      border-color: rgba(230,219,183,.8);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    /* Items Page Styles */
+    .order-button{background-color:#F3F4E4;color:#462C24;font-size:20px;font-family:'TTTravels',sans-serif;text-transform:uppercase;width:274px;height:60px;padding:0;border:none;border-radius:200px;cursor:pointer;transition:background-color .3s,transform .3s;text-decoration:none;display:flex;align-items:center;justify-content:center;letter-spacing:.5px;flex-shrink:0}
+    .order-button-bottom{position:static;transform:none;z-index:10}
+    .order-button-bottom:hover{transform:scale(.95)}
+    .color-switcher{position:static;transform:none;display:flex;gap:15px;z-index:10;flex-shrink:0}
+    .color-button{width:24px;height:24px;border-radius:50%;border:2px solid #212020;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 2px 4px rgba(0,0,0,.2);flex-shrink:0}
+    .color-button:hover{transform:scale(1.1);box-shadow:0 4px 8px rgba(0,0,0,.3)}
+    .color-button.active{border-width:3px;box-shadow:0 0 0 3px rgba(33,32,32,.3)}
+    .color-button-1{background-color:#47443F}
+    .color-button-2{background-color:#EFEFEF}
+    .center-image-container{position:relative;max-width:65%;max-height:50vh;width:100%;cursor:pointer;touch-action:manipulation;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+    .center-image{max-width:100%;max-height:50vh;width:auto;height:auto;display:block;transition:opacity .3s;pointer-events:none;object-fit:contain}
+    .center-image-hover{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:100%;max-height:50vh;width:auto;height:auto;opacity:0;transition:opacity .3s;pointer-events:none;object-fit:contain}
+    .bottom-section{display:flex;flex-direction:column;align-items:center;gap:15px;flex-shrink:0;width:100%}
+    .price{position:static;transform:none;font-family:'TTTravels',sans-serif;font-size:32px;color:var(--text-color);z-index:2;white-space:nowrap;margin:0}
+    .tshirt-hover-area{position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;z-index:2;touch-action:manipulation}
+    .center-image-container:hover .center-image,.center-image-container.hover-active .center-image{opacity:0}
+    .center-image-container:hover .center-image-hover,.center-image-container.hover-active .center-image-hover{opacity:1}
+
+    /* Увеличиваем размер разбивающихся картинок на десктопе, кроме ballelas.svg */
+    @media (min-width: 769px) {
+      .logo-center {
+        max-width: 1300px !important;
+        max-height: 750px !important;
+        left: 50% !important;
+        top: 50% !important;
+        right: auto !important;
+        margin: 0 !important;
+        transform-origin: center center !important;
+      }
+      
+      .logo-center[src*="ballelas.svg"] {
+        max-width: 979px !important;
+        max-height: 497px !important;
+        transform: translate(-50%, calc(-50% - 80px)) scale(1.2) !important;
+        left: 50% !important;
+        right: auto !important;
+        margin: 0 !important;
+        transform-origin: center center !important;
+      }
+      
+      .logo-center[src*="FAN.svg"] {
+        max-width: 1300px !important;
+        max-height: 750px !important;
+        transform: translate(-50%, -50%) scale(1.3) !important;
+        left: 50% !important;
+        right: auto !important;
+        margin: 0 !important;
+        transform-origin: center center !important;
+      }
+      
+      .logo-center[src*="we.png"] {
+        max-width: 1300px !important;
+        max-height: 750px !important;
+        left: 50% !important;
+        right: auto !important;
+        margin: 0 !important;
+        transform-origin: center center !important;
+      }
+      
+      .logo-center[src*="img_opt/objects_opt/"] {
+        max-width: 1300px !important;
+        max-height: 750px !important;
+        left: 50% !important;
+        top: 50% !important;
+        right: auto !important;
+        margin: 0 !important;
+        transform-origin: center center !important;
+        animation: rotateClockwise 20s linear infinite !important;
+      }
+
+      body.items-mode{position:relative}
+      body.items-mode .page-items{padding:30px 20px;height:100vh;min-height:100vh}
+      body.items-mode .center-image-container{max-width:65%;max-height:55vh}
+      body.items-mode .price{font-size:36px}
+    }
+
+    /* Мобильная адаптация */
+    @media (max-width: 768px) {
+      .preloader-logo {
+        width: 200px;
+        max-width: 300px;
+        max-height: 200px;
+      }
+
+      .preloader-progress {
+        width: 160px;
+      }
+
+      .preloader-content {
+        gap: 20px;
+      }
+
+      .top-logo {
+        top: 20px;
+      }
+
+      .logo-svg {
+        width: 108px;
+        height: 72px;
+        max-width: 180px;
+        max-height: 72px;
+      }
+
+      .logo-center {
+        max-width: calc(90vw - 100px);
+        max-height: calc(50vh - 100px);
+        transform: translate(-50%, calc(-50% - 80px)) scale(1.5);
+        left: 50%;
+        right: auto;
+        margin: 0;
+        transform-origin: center center;
+      }
+
+      .logo-center[src*="ballelas.svg"] {
+        max-width: calc(90vw - 100px - 25px);
+        max-height: calc(50vh - 100px - 25px);
+        transform: translate(-50%, calc(-50% - 130px)) scale(1.5);
+        left: 50%;
+        right: auto;
+        margin: 0;
+        transform-origin: center center;
+      }
+
+      .logo-center[src*="img_opt/objects_opt/"] {
+        animation: rotateClockwiseMobile 20s linear infinite;
+      }
+
+      .bg-bottom {
+        max-width: 100vw;
+        max-height: 90vh;
+        transform: translateX(-50%) scale(1.35);
+        transform-origin: center bottom;
+      }
+
+      .glass-btn {
+        width: 90vw;
+        max-width: 350px;
+        height: 70px;
+        font-size: 18px;
+        bottom: 20px;
+      }
+
+      /* Кнопка не трясется в мобильной версии */
+      body.camera-shake .glass-btn {
+        animation: cameraShakeReverse 0.3s ease-out !important;
+      }
+
+      html.items-mode{overflow:hidden;height:100%;position:fixed;width:100%}
+      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100vh;position:fixed;width:100%;touch-action:pan-y}
+      body.items-mode .page-items{padding:20px;height:100vh;min-height:100vh}
+      body.items-mode .top-logo{position:static;transform:none}
+      body.items-mode .logo-svg{width:160px;max-width:240px;max-height:100px}
+      body.items-mode .center-image-container{max-width:85vw;max-height:50vh}
+      body.items-mode .center-image,.items-mode .center-image-hover{max-height:50vh}
+      body.items-mode .price{font-size:28px}
+      body.items-mode .color-switcher{gap:12px}
+      body.items-mode .color-button{width:22px;height:22px}
+      body.items-mode .order-button{width:calc(100vw - 40px);max-width:300px;height:56px;font-size:18px}
+    }
+
+    @media (max-width: 480px) {
+      .preloader-logo {
+        width: 160px;
+        max-width: 240px;
+        max-height: 160px;
+      }
+
+      .preloader-progress {
+        width: 140px;
+      }
+
+      .preloader-content {
+        gap: 18px;
+      }
+
+      .top-logo {
+        top: 15px;
+      }
+
+      .logo-svg {
+        width: 90px;
+        height: 63px;
+        max-width: 144px;
+        max-height: 63px;
+      }
+
+      .logo-center {
+        max-width: calc(95vw - 100px);
+        max-height: calc(45vh - 100px);
+        transform: translate(-50%, calc(-50% - 80px)) scale(1.5);
+        left: 50%;
+        right: auto;
+        margin: 0;
+        transform-origin: center center;
+      }
+
+      .logo-center[src*="ballelas.svg"] {
+        max-width: calc(95vw - 100px - 25px);
+        max-height: calc(45vh - 100px - 25px);
+        transform: translate(-50%, calc(-50% - 130px)) scale(1.5);
+        left: 50%;
+        right: auto;
+        margin: 0;
+        transform-origin: center center;
+      }
+
+      .logo-center[src*="img_opt/objects_opt/"] {
+        animation: rotateClockwiseMobile 20s linear infinite;
+      }
+
+      .bg-bottom {
+        max-width: 100vw;
+        max-height: 82vh;
+        transform: translateX(-50%) scale(1.35);
+        transform-origin: center bottom;
+      }
+
+      .glass-btn {
+        width: 95vw;
+        height: 60px;
+        font-size: 16px;
+        bottom: 15px;
+      }
+
+      html.items-mode{overflow:hidden;height:100%;position:fixed;width:100%}
+      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100vh;position:fixed;width:100%;touch-action:pan-y}
+      body.items-mode .page-items{padding:15px;height:100vh;min-height:100vh}
+      body.items-mode .top-logo{position:static;transform:none}
+      body.items-mode .logo-svg{width:140px;max-width:200px;max-height:90px}
+      body.items-mode .center-image-container{max-width:90vw;max-height:45vh}
+      body.items-mode .center-image,.items-mode .center-image-hover{max-height:45vh}
+      body.items-mode .price{font-size:24px}
+      body.items-mode .color-switcher{gap:10px}
+      body.items-mode .color-button{width:20px;height:20px;border-width:1.5px}
+      body.items-mode .order-button{width:calc(100vw - 30px);max-width:280px;height:52px;font-size:16px}
+    }
+
+    /* Портретная ориентация */
+    @media (max-height: 600px) and (orientation: portrait) {
+      .preloader-logo {
+        width: 140px;
+        max-width: 200px;
+        max-height: 140px;
+      }
+
+      .preloader-progress {
+        width: 120px;
+      }
+
+      .preloader-content {
+        gap: 15px;
+      }
+
+      .logo-center {
+        max-width: calc(90vw - 100px);
+        max-height: calc(40vh - 100px);
+        transform: translate(-50%, calc(-50% - 30px)) scale(1.5);
+        left: 50%;
+        right: auto;
+        margin: 0;
+        transform-origin: center center;
+      }
+
+      .logo-center[src*="ballelas.svg"] {
+        max-width: calc(90vw - 100px - 25px);
+        max-height: calc(40vh - 100px - 25px);
+        transform: translate(-50%, calc(-50% - 130px)) scale(1.5);
+        left: 50%;
+        right: auto;
+        margin: 0;
+        transform-origin: center center;
+      }
+
+      .logo-center[src*="img_opt/objects_opt/"] {
+        animation: rotateClockwiseMobile 20s linear infinite;
+      }
+
+      .bg-bottom {
+        max-width: 100vw;
+        max-height: 75vh;
+        transform: translateX(-50%) scale(1.35);
+        transform-origin: center bottom;
+      }
+
+      .glass-btn {
+        bottom: 10px;
+        height: 50px;
+        font-size: 14px;
+      }
+
+      /* Кнопка не трясется в мобильной версии */
+      body.camera-shake .glass-btn {
+        animation: cameraShakeReverse 0.3s ease-out !important;
+      }
+
+      html.items-mode{overflow:hidden;height:100%;position:fixed;width:100%}
+      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100vh;position:fixed;width:100%;touch-action:pan-y}
+      body.items-mode .page-items{padding:15px;height:100vh;min-height:100vh}
+      body.items-mode .price{font-size:22px}
+      body.items-mode .order-button{height:48px;font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <img src="img/ll.svg" alt="Loading..." class="preloader-logo">
+      <div class="preloader-progress">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Index Page -->
+  <div class="page-index">
+    <img src="img/ballelas.svg" alt="Logo Center" class="logo-center" id="toggleImage">
+    <img src="img_opt/1.webp" alt="Main Background" class="bg-bottom" id="bgImage">
+
+    <button class="glass-btn" id="cta">
+      <span class="progress" id="progressBar"></span>
+      <span class="label" id="ctaLabel">ЖМИ</span>
+    </button>
+  </div>
+
+  <!-- Items Page -->
+  <div class="page-items">
+    <div class="top-logo">
+      <a href="#" id="backToIndex">
+        <img src="img/l.svg" alt="Logo" class="logo-svg" width="96" height="40">
+      </a>
+    </div>
+
+    <div class="center-image-container">
+      <div class="tshirt-hover-area"></div>
+      <img src="img_opt/card_opt/hack_front.webp" alt="Center Image" class="center-image" id="main-image" width="400" height="500" loading="eager">
+      <img src="img_opt/card_opt/hak_back.webp" alt="Center Image Hover" class="center-image-hover" id="hover-image" width="400" height="500" loading="eager">
+    </div>
+
+    <div class="bottom-section">
+      <div class="price">3 500₽</div>
+      <div class="color-switcher">
+        <button class="color-button color-button-1 active" aria-label="Color 1" data-color="dark"></button>
+        <button class="color-button color-button-2" aria-label="Color 2" data-color="white"></button>
+      </div>
+      <a href="https://t.me/ballelas" class="order-button order-button-bottom" target="_blank" rel="noopener">ЗАКАЗАТЬ</a>
+    </div>
+  </div>
+
+  <script>
+    // Page state management
+    let currentPage = 'index';
+
+    function showPage(page) {
+      currentPage = page;
+      if (page === 'items') {
+        document.documentElement.classList.add('items-mode');
+        document.body.classList.add('items-mode');
+      } else {
+        document.documentElement.classList.remove('items-mode');
+        document.body.classList.remove('items-mode');
+        // Сбрасываем инлайн-стили фона, установленные на странице items
+        document.body.style.backgroundColor = '';
+        document.body.style.backgroundImage = '';
+        // Сбрасываем стили логотипа
+        const logo = document.querySelector('.logo-svg');
+        if (logo) {
+          logo.style.filter = '';
+        }
+        // Сбрасываем логотип на ballelas.svg и состояние игры
+        const toggleImage = document.getElementById('toggleImage');
+        const bgImage = document.getElementById('bgImage');
+        if (toggleImage && bgImage) {
+          toggleImage.classList.remove('exploding', 'damaged', 'cracked', 'object-shake', 'object-shake-strong');
+          toggleImage.style.opacity = '1';
+          toggleImage.src = 'img/ballelas.svg';
+          bgImage.src = 'img_opt/1.webp';
+        }
+        // Сбрасываем счетчики и состояние игры
+        hitCount = 0;
+        isFirstHit = true;
+        isExploding = false;
+        currentObjectIndex = 0;
+        pressCount = 0;
+        const progressBarEl = document.getElementById('progressBar');
+        const ctaEl = document.getElementById('cta');
+        const ctaLabelEl = document.getElementById('ctaLabel');
+        if (progressBarEl) progressBarEl.style.width = '0%';
+        if (ctaEl) ctaEl.classList.remove('completed');
+        if (ctaLabelEl) {
+          ctaLabelEl.textContent = 'ЖМИ';
+          updateLabelColor(0);
+        }
+      }
+    }
+
+    // Back to index handler
+    document.getElementById('backToIndex').addEventListener('click', (e) => {
+      e.preventDefault();
+      showPage('index');
+    });
+
+    // Preloader functionality
+    function hidePreloader() {
+      const preloader = document.getElementById('preloader');
+      if (preloader) {
+        triggerLightVibration();
+        preloader.classList.add('hidden');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 500);
+      }
+    }
+
+    // Предзагрузка критичных изображений
+    const preloadImages = () => {
+      const imageUrls = [
+        'img/ballelas.svg',
+        'img_opt/1.webp',
+        'img_opt/2.webp',
+        'img_opt/card_opt/hack_front.webp',
+        'img_opt/card_opt/hak_back.webp',
+        'img_opt/card_opt/white_front.webp',
+        'img_opt/card_opt/white_back.webp',
+        'img/l.svg',
+        'card/bbb.svg',
+        'img/black_bg.svg'
+      ];
+      
+      let loadedCount = 0;
+      const totalImages = imageUrls.length;
+      const progressBar = document.getElementById('preloaderProgressBar');
+
+      return new Promise((resolve) => {
+        const updateProgress = () => {
+          const progress = (loadedCount / totalImages) * 100;
+          if (progressBar) progressBar.style.width = progress + '%';
+        };
+
+        imageUrls.forEach(url => {
+          const img = new Image();
+          img.onload = img.onerror = () => {
+            loadedCount++;
+            updateProgress();
+            if (loadedCount === totalImages) {
+              hidePreloader();
+              resolve();
+            }
+          };
+          img.src = url;
+        });
+      });
+    };
+
+    // Функция для легкой вибрации на мобильных устройствах
+    let vibrationEnabled = false;
+    
+    function triggerLightVibration() {
+      if ('vibrate' in navigator && isMobile()) {
+        try {
+          navigator.vibrate(50);
+          vibrationEnabled = true;
+        } catch (e) {
+        }
+      }
+    }
+    
+    function enableVibrationOnInteraction() {
+      if (vibrationEnabled) return;
+      
+      const enableVibration = () => {
+        if ('vibrate' in navigator && isMobile()) {
+          try {
+            navigator.vibrate(30);
+            vibrationEnabled = true;
+          } catch (e) {
+          }
+        }
+        document.removeEventListener('touchstart', enableVibration);
+        document.removeEventListener('click', enableVibration);
+      };
+      
+      document.addEventListener('touchstart', enableVibration, { once: true, passive: true });
+      document.addEventListener('click', enableVibration, { once: true });
+    }
+
+    // Запускаем предзагрузку после загрузки DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      triggerLightVibration();
+      enableVibrationOnInteraction();
+      preloadImages();
+      
+      // Инициализируем объект в чистом состоянии при первом заходе
+      const toggleImage = document.getElementById('toggleImage');
+      const bgImage = document.getElementById('bgImage');
+      
+      if (toggleImage && bgImage) {
+        toggleImage.classList.remove('exploding', 'damaged', 'cracked');
+        toggleImage.src = 'img/ballelas.svg';
+        bgImage.src = 'img_opt/1.webp';
+        hitCount = 0;
+        isFirstHit = true;
+        isFirstTime = false;
+      }
+
+      // Items page initialization
+      initItemsPage();
+    });
+
+    // Переменные для игры
+    let hitCount = 0;
+    const requiredHits = 1;
+    let isFirstHit = true;
+    let isExploding = false;
+    let isFirstTime = true;
+    let pressCount = 0;
+    
+    // Функция для определения мобильной версии
+    const isMobile = () => window.innerWidth <= 768;
+    
+    // Массив объектов для разбивания
+    const breakableObjects = [
+      'img_opt/objects_opt/bal.webp',
+      'img_opt/objects_opt/batat.webp',
+      'img_opt/objects_opt/begun.webp',
+      'img_opt/objects_opt/coffee.webp',
+      'img_opt/objects_opt/corp.webp',
+      'img_opt/objects_opt/fan.webp',
+      'img_opt/objects_opt/ita.webp',
+      'img_opt/objects_opt/la.webp',
+      'img_opt/objects_opt/mat.webp',
+      'img_opt/objects_opt/mor.webp',
+      'img_opt/objects_opt/nov.webp',
+      'img_opt/objects_opt/oct.webp',
+      'img_opt/objects_opt/padel.webp',
+      'img_opt/objects_opt/pan.webp',
+      'img_opt/objects_opt/pass.webp',
+      'img_opt/objects_opt/pererv.webp',
+      'img_opt/objects_opt/pivo.webp',
+      'img_opt/objects_opt/shet.webp',
+      'img_opt/objects_opt/svit.webp',
+      'img_opt/objects_opt/tg.webp',
+      'img_opt/objects_opt/velo.webp',
+      'img_opt/objects_opt/ya.webp',
+      'img_opt/objects_opt/zash.webp'
+    ];
+    
+    // Индекс текущего объекта для последовательного перебора
+    let currentObjectIndex = 0;
+    
+    // Ленивая загрузка объектов после старта
+    setTimeout(() => {
+      breakableObjects.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    }, 500);
+
+    // Функция для получения следующего объекта (последовательно, без повторений)
+    function getNextObject() {
+      const nextObject = breakableObjects[currentObjectIndex];
+      currentObjectIndex = (currentObjectIndex + 1) % breakableObjects.length;
+      return nextObject;
+    }
+
+    // Функция для обработки разбивания
+    function handleBreak() {
+      if (currentPage !== 'index') return;
+      
+      hitCount++;
+      isFirstHit = false;
+      
+      const toggleImage = document.getElementById('toggleImage');
+      const bgImage = document.getElementById('bgImage');
+        
+      const rect = toggleImage.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+        
+      if (hitCount < requiredHits) {
+        toggleImage.classList.add('damaged');
+        
+        const flash = document.createElement('div');
+        flash.style.position = 'fixed';
+        flash.style.top = '0';
+        flash.style.left = '0';
+        flash.style.width = '100vw';
+        flash.style.height = '100vh';
+        flash.style.background = 'radial-gradient(circle at center, rgba(245, 240, 208, 0.3) 0%, transparent 60%)';
+        flash.style.pointerEvents = 'none';
+        flash.style.zIndex = '0';
+        document.body.appendChild(flash);
+        
+        flash.animate([
+          { opacity: 0, transform: 'scale(0.8)' },
+          { opacity: 1, transform: 'scale(1.1)', offset: 0.3 },
+          { opacity: 0, transform: 'scale(1.2)' }
+        ], {
+          duration: 150,
+          easing: 'ease-out'
+        }).onfinish = () => {
+          flash.remove();
+        };
+        
+        toggleImage.classList.remove('object-shake', 'object-shake-strong');
+        setTimeout(() => {
+          toggleImage.classList.add('object-shake');
+          setTimeout(() => {
+            toggleImage.classList.remove('object-shake');
+          }, 100);
+        }, 10);
+        
+        bgImage.src = 'img_opt/2.webp';
+        bgImage.src = 'img_opt/1.webp';
+      } else {
+        isExploding = true;
+        
+        const rect = toggleImage.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        
+        toggleImage.classList.add('exploding');
+        
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+          position: fixed;
+          top: 0; left: 0;
+          width: 100vw; height: 100vh;
+          background: radial-gradient(circle at ${centerX}px ${centerY}px, rgba(255,255,255,0.9) 0%, rgba(245,240,208,0.6) 30%, transparent 70%);
+          pointer-events: none;
+          z-index: 0;
+        `;
+        document.body.appendChild(flash);
+        flash.animate([
+          { opacity: 0, transform: 'scale(0.5)' },
+          { opacity: 1, transform: 'scale(1.2)' },
+          { opacity: 0, transform: 'scale(1.5)' }
+        ], { duration: 300, easing: 'ease-out' }).onfinish = () => flash.remove();
+        
+        const wave = document.createElement('div');
+        wave.style.cssText = `
+          position: fixed;
+          left: ${centerX}px; top: ${centerY}px;
+          width: 20px; height: 20px;
+          border: 3px solid rgba(245,240,208,0.8);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          z-index: 0;
+        `;
+        document.body.appendChild(wave);
+        wave.animate([
+          { width: '20px', height: '20px', opacity: 1, borderWidth: '3px' },
+          { width: '400px', height: '400px', opacity: 0, borderWidth: '1px' }
+        ], { duration: 400, easing: 'ease-out' }).onfinish = () => wave.remove();
+        
+        for (let i = 0; i < 12; i++) {
+          const spark = document.createElement('div');
+          const angle = (i / 12) * Math.PI * 2;
+          const distance = 150 + Math.random() * 100;
+          const size = 4 + Math.random() * 8;
+          spark.style.cssText = `
+            position: fixed;
+            left: ${centerX}px; top: ${centerY}px;
+            width: ${size}px; height: ${size}px;
+            background: radial-gradient(circle, #fff 0%, #f5f0d0 50%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+          `;
+          document.body.appendChild(spark);
+          spark.animate([
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(0)`, opacity: 0 }
+          ], { duration: 500 + Math.random() * 200, easing: 'ease-out' }).onfinish = () => spark.remove();
+        }
+        
+        bgImage.src = 'img_opt/2.webp';
+        
+        setTimeout(() => {
+          bgImage.src = 'img_opt/1.webp';
+        }, 150);
+        
+        // Эффект испарения мелкими частицами
+        const imageRect = toggleImage.getBoundingClientRect();
+        
+        // Скрываем оригинальное изображение постепенно
+        toggleImage.animate([
+          { opacity: 1 },
+          { opacity: 0 }
+        ], {
+          duration: 300,
+          easing: 'ease-out'
+        });
+        
+        // Создаем множество мелких частиц
+        const numParticles = 40;
+        const particles = [];
+        
+        for (let i = 0; i < numParticles; i++) {
+          const particle = document.createElement('div');
+          
+          // Случайная позиция внутри изображения
+          const offsetX = (Math.random() - 0.5) * imageRect.width;
+          const offsetY = (Math.random() - 0.5) * imageRect.height;
+          
+          // Размер частицы
+          const size = 3 + Math.random() * 5;
+          
+          // Случайный цвет из изображения (используем градиент для эффекта)
+          const hue = Math.random() * 60 + 30; // теплые тона
+          const saturation = 20 + Math.random() * 30;
+          const lightness = 40 + Math.random() * 30;
+          
+          particle.style.cssText = `
+            position: fixed;
+            left: ${centerX + offsetX}px;
+            top: ${centerY + offsetY}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: radial-gradient(circle, 
+              hsla(${hue}, ${saturation}%, ${lightness}%, 0.9) 0%,
+              hsla(${hue}, ${saturation}%, ${lightness}%, 0.6) 50%,
+              transparent 100%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 1;
+            box-shadow: 0 0 ${size * 2}px hsla(${hue}, ${saturation}%, ${lightness}%, 0.8);
+          `;
+          
+          document.body.appendChild(particle);
+          particles.push(particle);
+          
+          // Случайное направление разлета
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 80 + Math.random() * 120;
+          const spread = Math.random() * 40 - 20; // вертикальное рассеивание
+          
+          // Скорость и траектория
+          const velocityX = Math.cos(angle) * distance;
+          const velocityY = Math.sin(angle) * distance + spread;
+          
+          // Плавное исчезновение
+          const duration = 400 + Math.random() * 300;
+          const fadeStart = 0.3;
+          
+          particle.animate([
+            { 
+              transform: 'translate(0, 0) scale(1)', 
+              opacity: 1,
+              filter: 'blur(0px)'
+            },
+            { 
+              transform: `translate(${velocityX * 0.4}px, ${velocityY * 0.4}px) scale(0.8)`, 
+              opacity: 0.7,
+              filter: 'blur(1px)',
+              offset: fadeStart
+            },
+            { 
+              transform: `translate(${velocityX}px, ${velocityY}px) scale(0)`, 
+              opacity: 0,
+              filter: 'blur(3px)'
+            }
+          ], {
+            duration: duration,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+          }).onfinish = () => {
+            particle.remove();
+          };
+        }
+        
+        // Появление нового объекта после задержки 200ms
+        setTimeout(() => {
+          const nextObject = getNextObject();
+          toggleImage.classList.remove('exploding', 'damaged');
+          toggleImage.src = nextObject;
+          toggleImage.style.opacity = '0';
+          
+          // Плавное появление с анимацией opacity от 0 до 1 за 300ms
+          toggleImage.animate([
+            { opacity: 0 },
+            { opacity: 1 }
+          ], {
+            duration: 300,
+            easing: 'ease-in-out',
+            fill: 'forwards'
+          });
+          
+          hitCount = 0;
+          isFirstHit = true;
+          isExploding = false;
+        }, 200);
+      }
+        
+      incrementProgress();
+    }
+
+    // Обработчик клавиатуры
+    let isSpacePressed = false;
+    
+    document.addEventListener('keydown', (e)=>{
+      if(e.code === 'Space' && !isSpacePressed && currentPage === 'index'){
+        e.preventDefault();
+        isSpacePressed = true;
+        handleBreak();
+      }
+    });
+    
+    document.addEventListener('keyup', (e)=>{
+      if(e.code === 'Space'){
+        isSpacePressed = false;
+      }
+    });
+
+    // Обработчики touch-событий для мобильных устройств
+    let isTouchProcessing = false;
+
+    document.addEventListener('touchend', (e) => {
+      if (currentPage !== 'index') return;
+      
+      const target = e.target;
+      
+      if (target.closest('.glass-btn') || target.closest('.color-switcher') || target.closest('.order-button') || target.closest('.center-image-container')) {
+        return;
+      }
+      
+      if (isExploding) {
+        e.preventDefault();
+        return;
+      }
+      
+      e.preventDefault();
+      handleBreak();
+      
+      requestAnimationFrame(() => {
+        isTouchProcessing = false;
+      });
+    }, { passive: false });
+
+    // Обработчик клика для десктопа
+    let isClickProcessing = false;
+    
+    document.addEventListener('click', (e) => {
+      if (currentPage !== 'index') return;
+      
+      if (!('ontouchstart' in window) && !isClickProcessing && !isExploding) {
+        const target = e.target;
+        if (target.closest('.glass-btn') || target.closest('.color-switcher') || target.closest('.order-button') || target.closest('.center-image-container')) {
+          return;
+        }
+        
+        isClickProcessing = true;
+        handleBreak();
+        
+        requestAnimationFrame(() => {
+          isClickProcessing = false;
+        });
+      }
+    });
+
+    const progressBar = document.getElementById('progressBar');
+    const cta = document.getElementById('cta');
+    const ctaLabel = document.getElementById('ctaLabel');
+
+    const start = {r:245, g:240, b:208};
+    const end   = {r:33,  g:32,  b:32};
+    function lerp(a,b,t){ return Math.round(a + (b - a) * t); }
+    function updateLabelColor(pct){
+      const t = Math.min(Math.max(pct/100, 0), 1);
+      const r = lerp(start.r, end.r, t);
+      const g = lerp(start.g, end.g, t);
+      const b = lerp(start.b, end.b, t);
+      if (ctaLabel) ctaLabel.style.color = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function incrementProgress(){
+      if(pressCount < 10){
+        pressCount += 1;
+        const pct = Math.min(pressCount * 10, 100);
+        if (progressBar) progressBar.style.width = pct + '%';
+        updateLabelColor(pct);
+        if(pct === 100){
+          if (cta) cta.classList.add('completed');
+          if (ctaLabel) ctaLabel.textContent = 'КУПИТЬ ФУТБОЛКУ';
+        }
+      }
+    }
+
+    // Обработчик клика для десктопа
+    if (cta) {
+      cta.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        
+        if(ctaLabel && ctaLabel.textContent === 'КУПИТЬ ФУТБОЛКУ'){
+          showPage('items');
+        }
+      });
+      
+      // Обработчик touch для мобильных устройств
+      cta.addEventListener('touchend', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        
+        if(ctaLabel && ctaLabel.textContent === 'КУПИТЬ ФУТБОЛКУ'){
+          showPage('items');
+        }
+      });
+    }
+
+    updateLabelColor(0);
+
+    // Items page functionality
+    function initItemsPage() {
+      const colorButtons = document.querySelectorAll('.color-button');
+      const mainImage = document.getElementById('main-image');
+      const hoverImage = document.getElementById('hover-image');
+      const centerImageContainer = document.querySelector('.center-image-container');
+      const logo = document.querySelector('.logo-svg');
+      const orderButton = document.querySelector('.order-button');
+      const priceElement = document.querySelector('.price');
+      let isShowingHover = false;
+      let touchStartTime = 0;
+      const isTouch = 'ontouchstart' in window;
+      
+      // Preload alternate images
+      const preloadWhite = new Image();
+      preloadWhite.src = 'img_opt/card_opt/white_front.webp';
+      const preloadWhiteB = new Image();
+      preloadWhiteB.src = 'img_opt/card_opt/white_back.webp';
+      
+      if(orderButton){
+        orderButton.style.backgroundColor = '#462C24';
+        orderButton.style.color = '#F3F4E4';
+        orderButton.onmouseenter = function(){
+          this.style.backgroundColor = this.style.backgroundColor === 'rgb(70, 44, 36)' || this.style.backgroundColor === '#462C24' ? '#5a3a2f' : '#e8e6d8';
+        };
+        orderButton.onmouseleave = function(){
+          const c = document.querySelector('.color-button.active')?.dataset.color || 'dark';
+          this.style.backgroundColor = c === 'dark' ? '#462C24' : '#F3F4E4';
+          this.style.color = c === 'dark' ? '#F3F4E4' : '#462C24';
+        };
+      }
+      
+      function toggleImage(){
+        isShowingHover = !isShowingHover;
+        if (mainImage) mainImage.style.opacity = isShowingHover ? '0' : '1';
+        if (hoverImage) hoverImage.style.opacity = isShowingHover ? '1' : '0';
+        if (centerImageContainer) centerImageContainer.classList.toggle('hover-active', isShowingHover);
+      }
+      
+      if(!isTouch && centerImageContainer){
+        centerImageContainer.onmouseenter = function(e){
+          if(!e.target.closest('.color-switcher')){
+            if (mainImage) mainImage.style.opacity = '0';
+            if (hoverImage) hoverImage.style.opacity = '1';
+            centerImageContainer.classList.add('hover-active');
+          }
+        };
+        centerImageContainer.onmouseleave = function(){
+          if (mainImage) mainImage.style.opacity = '1';
+          if (hoverImage) hoverImage.style.opacity = '0';
+          centerImageContainer.classList.remove('hover-active');
+        };
+      }
+      
+      if (centerImageContainer) {
+        centerImageContainer.onclick = function(e){
+          if(!e.target.closest('.color-switcher') && isTouch) toggleImage();
+        };
+        centerImageContainer.addEventListener('touchstart', function(e){
+          if(!e.target.closest('.color-switcher')) touchStartTime = Date.now();
+        }, {passive: true});
+        centerImageContainer.addEventListener('touchend', function(e){
+          if(!e.target.closest('.color-switcher') && Date.now() - touchStartTime < 300){
+            e.preventDefault();
+            toggleImage();
+          }
+        }, {passive: false});
+      }
+      
+      colorButtons.forEach(btn => btn.onclick = function(){
+        colorButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const c = this.dataset.color;
+        const isWhite = c === 'white';
+        if (mainImage) mainImage.src = isWhite ? 'img_opt/card_opt/white_front.webp' : 'img_opt/card_opt/hack_front.webp';
+        if (hoverImage) hoverImage.src = isWhite ? 'img_opt/card_opt/white_back.webp' : 'img_opt/card_opt/hak_back.webp';
+        document.body.style.backgroundColor = isWhite ? '#212020' : '#F3F4E4';
+        document.body.style.backgroundImage = isWhite ? "url('img/black_bg.svg')" : "url('card/bbb.svg')";
+        if(logo) logo.style.filter = isWhite ? 'brightness(0) saturate(100%) invert(96%) sepia(3%) saturate(500%) hue-rotate(5deg) brightness(98%) contrast(95%)' : 'brightness(0) saturate(100%) invert(18%) sepia(30%) saturate(1500%) hue-rotate(345deg) brightness(0.6) contrast(1.1)';
+        if(orderButton){
+          orderButton.style.backgroundColor = isWhite ? '#F3F4E4' : '#462C24';
+          orderButton.style.color = isWhite ? '#462C24' : '#F3F4E4';
+        }
+        if(priceElement) priceElement.style.color = isWhite ? '#F3F4E4' : '#212020';
+        isShowingHover = false;
+        if (mainImage) mainImage.style.opacity = '1';
+        if (hoverImage) hoverImage.style.opacity = '0';
+      });
+    }
+  </script>
+</body>
+</html>
