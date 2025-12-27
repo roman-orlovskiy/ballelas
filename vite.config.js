@@ -8,6 +8,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
-  }
+  },
+  // Раскомментируйте эту строку, если репозиторий НЕ называется username.github.io
+  // base: '/ballelas/',
 });
 
