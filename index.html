@@ -124,6 +124,17 @@
       padding: 20px;
     }
 
+    .price-color-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      flex-shrink: 0;
+      width: 100%;
+      position: relative;
+      bottom: 3%;
+    }
+
     body.items-mode .page-index {
       display: none;
     }
@@ -414,7 +425,6 @@
     .center-image-container{position:relative;max-width:65%;max-height:50vh;width:100%;cursor:pointer;touch-action:manipulation;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
     .center-image{max-width:100%;max-height:50vh;width:auto;height:auto;display:block;transition:opacity .3s;pointer-events:none;object-fit:contain}
     .center-image-hover{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:100%;max-height:50vh;width:auto;height:auto;opacity:0;transition:opacity .3s;pointer-events:none;object-fit:contain}
-    .bottom-section{display:flex;flex-direction:column;align-items:center;gap:15px;flex-shrink:0;width:100%}
     .price{position:static;transform:none;font-family:'TTTravels',sans-serif;font-size:32px;color:var(--text-color);z-index:2;white-space:nowrap;margin:0}
     .tshirt-hover-area{position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;z-index:2;touch-action:manipulation}
     .center-image-container:hover .center-image,.center-image-container.hover-active .center-image{opacity:0}
@@ -741,14 +751,15 @@
       <img src="img_opt/card_opt/hak_back.webp" alt="Center Image Hover" class="center-image-hover" id="hover-image" width="400" height="500" loading="eager">
     </div>
 
-    <div class="bottom-section">
+    <div class="price-color-wrapper">
       <div class="price">3 500₽</div>
       <div class="color-switcher">
         <button class="color-button color-button-1 active" aria-label="Color 1" data-color="dark"></button>
         <button class="color-button color-button-2" aria-label="Color 2" data-color="white"></button>
       </div>
-      <a href="https://t.me/ballelas" class="order-button order-button-bottom" target="_blank" rel="noopener">ЗАКАЗАТЬ</a>
     </div>
+
+    <a href="https://t.me/ballelas" class="order-button order-button-bottom" target="_blank" rel="noopener">ЗАКАЗАТЬ</a>
   </div>
 
   <script>
