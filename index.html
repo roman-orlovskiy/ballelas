@@ -32,15 +32,20 @@
       --button-text: #E6DBB7;
     }
 
-    html{overflow:hidden;height:100%}
+    html{
+      overflow: hidden;
+      height: 100%;
+      min-height: 100%;
+    }
 
     body {
       margin: 0;
       background-color: #212020;
       overflow: hidden;
       font-family: 'TTTravels', sans-serif;
-      height: 100vh;
-      width: 100vw;
+      height: 100%;
+      min-height: 100%;
+      width: 100%;
       position: relative;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -112,7 +117,7 @@
 
     .page-items {
       display: none;
-      min-height: 100vh;
+      min-height: 100%;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
@@ -125,8 +130,8 @@
 
     body.items-mode .page-items {
       display: flex;
-      height: 100vh;
-      min-height: 100vh;
+      height: 100%;
+      min-height: 100%;
     }
 
     body.items-mode {
@@ -468,7 +473,7 @@
       }
 
       body.items-mode{position:relative}
-      body.items-mode .page-items{padding:30px 20px;height:100vh;min-height:100vh}
+      body.items-mode .page-items{padding:30px 20px;height:100%;min-height:100%}
       body.items-mode .center-image-container{max-width:65%;max-height:55vh}
       body.items-mode .price{font-size:36px}
     }
@@ -544,9 +549,9 @@
         animation: cameraShakeReverse 0.3s ease-out !important;
       }
 
-      html.items-mode{overflow:hidden;height:100%;position:fixed;width:100%}
-      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100vh;position:fixed;width:100%;touch-action:pan-y}
-      body.items-mode .page-items{padding:20px;height:100vh;min-height:100vh}
+      html.items-mode{overflow:hidden;height:100%;min-height:100%;position:fixed;width:100%}
+      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100%;min-height:100%;position:fixed;width:100%;touch-action:pan-y}
+      body.items-mode .page-items{padding:20px;height:100%;min-height:100%}
       body.items-mode .top-logo{position:static;transform:none}
       body.items-mode .logo-svg{width:160px;max-width:240px;max-height:100px}
       body.items-mode .center-image-container{max-width:85vw;max-height:50vh}
@@ -621,9 +626,9 @@
         bottom: 15px;
       }
 
-      html.items-mode{overflow:hidden;height:100%;position:fixed;width:100%}
-      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100vh;position:fixed;width:100%;touch-action:pan-y}
-      body.items-mode .page-items{padding:15px;height:100vh;min-height:100vh}
+      html.items-mode{overflow:hidden;height:100%;min-height:100%;position:fixed;width:100%}
+      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100%;min-height:100%;position:fixed;width:100%;touch-action:pan-y}
+      body.items-mode .page-items{padding:15px;height:100%;min-height:100%}
       body.items-mode .top-logo{position:static;transform:none}
       body.items-mode .logo-svg{width:140px;max-width:200px;max-height:90px}
       body.items-mode .center-image-container{max-width:90vw;max-height:45vh}
@@ -692,9 +697,9 @@
         animation: cameraShakeReverse 0.3s ease-out !important;
       }
 
-      html.items-mode{overflow:hidden;height:100%;position:fixed;width:100%}
-      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100vh;position:fixed;width:100%;touch-action:pan-y}
-      body.items-mode .page-items{padding:15px;height:100vh;min-height:100vh}
+      html.items-mode{overflow:hidden;height:100%;min-height:100%;position:fixed;width:100%}
+      body.items-mode{overflow-y:auto;overflow-x:hidden;height:100%;min-height:100%;position:fixed;width:100%;touch-action:pan-y}
+      body.items-mode .page-items{padding:15px;height:100%;min-height:100%}
       body.items-mode .price{font-size:22px}
       body.items-mode .order-button{height:48px;font-size:14px}
     }
@@ -984,7 +989,7 @@
         flash.style.top = '0';
         flash.style.left = '0';
         flash.style.width = '100vw';
-        flash.style.height = '100vh';
+        flash.style.height = '100%';
         flash.style.background = 'radial-gradient(circle at center, rgba(245, 240, 208, 0.3) 0%, transparent 60%)';
         flash.style.pointerEvents = 'none';
         flash.style.zIndex = '0';
@@ -1025,7 +1030,7 @@
         flash.style.cssText = `
           position: fixed;
           top: 0; left: 0;
-          width: 100vw; height: 100vh;
+          width: 100%; height: 100%;
           background: radial-gradient(circle at ${centerX}px ${centerY}px, rgba(255,255,255,0.9) 0%, rgba(245,240,208,0.6) 30%, transparent 70%);
           pointer-events: none;
           z-index: 0;
